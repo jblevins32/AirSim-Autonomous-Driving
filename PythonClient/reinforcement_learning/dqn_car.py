@@ -23,6 +23,7 @@ env = DummyVecEnv(
 )
 
 # Wrap env as VecTransposeImage to allow SB to handle frame observations
+# print(env.observation_space)
 env = VecTransposeImage(env)
 
 # Initialize RL algorithm type and parameters
@@ -51,7 +52,7 @@ eval_callback = EvalCallback(
     n_eval_episodes=5,
     best_model_save_path=".",
     log_path=".",
-    eval_freq=10000,
+    eval_freq=10000, #10000,
 )
 callbacks.append(eval_callback)
 
@@ -60,7 +61,7 @@ kwargs["callback"] = callbacks
 
 # Train for a certain number of timesteps
 model.learn(
-    total_timesteps=5e5, tb_log_name="dqn_airsim_car_run_" + str(time.time()), **kwargs
+    total_timesteps=5e5, tb_log_name="dqn_airsim_car_run_" + str(time.time()), progress_bar=True, **kwargs
 )
 
 # Save policy weights
